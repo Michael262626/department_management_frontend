@@ -33,7 +33,7 @@ export const registerUser = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios.post('http://localhost:3000/api/v1/auth/register', {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, {
         username,
         email,
         password,
@@ -50,7 +50,7 @@ export const resetPassword = createAsyncThunk(
   'auth/resetPassword',
   async ({ token, password }: { token: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.post('http://localhost:3000/api/v1/auth/reset-password', { token, password })
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/reset-password`, { token, password })
       return response.data
     } catch (err: any) {
       return rejectWithValue(err.response?.data?.message || 'Something went wrong')
@@ -63,7 +63,7 @@ export const loginUser = createAsyncThunk(
   'auth/login',
   async ({ username, password }: { username: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.post('http://localhost:3000/api/v1/auth/login', {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
         username,
         password,
       }, { withCredentials: true })
