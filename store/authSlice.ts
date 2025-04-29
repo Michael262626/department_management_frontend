@@ -33,7 +33,7 @@ export const registerUser = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios.post('http://localhost:3003/api/v1/auth/register', {
+      const response = await axios.post('http://localhost:3000/api/v1/auth/register', {
         username,
         email,
         password,
@@ -50,7 +50,7 @@ export const resetPassword = createAsyncThunk(
   'auth/resetPassword',
   async ({ token, password }: { token: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.post('http://localhost:3003/api/v1/auth/reset-password', { token, password })
+      const response = await axios.post('http://localhost:3000/api/v1/auth/reset-password', { token, password })
       return response.data
     } catch (err: any) {
       return rejectWithValue(err.response?.data?.message || 'Something went wrong')
@@ -92,7 +92,6 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state) => {
         state.loading = false
-        state.isAuthenticated = true
         state.success = true
       })
       .addCase(registerUser.rejected, (state, action) => {

@@ -25,38 +25,41 @@ export function LoginForm() {
   const { error, loading, isAuthenticated  } = useAppSelector((state) => state.auth)
 
   useEffect(() => {
-    if (isAuthenticated || localStorage.getItem('isAuthenticated') === 'true') {
+    if (isAuthenticated) {
       router.push("/dashboard")
     }
   }, [isAuthenticated, router])
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
   
-    const resultAction = await dispatch(loginUser({ username, password }))
-    const token = resultAction.payload?.access_token;
+    const resultAction = await dispatch(loginUser({ username, password }));
+  
     if (loginUser.fulfilled.match(resultAction)) {
+      const token = resultAction.payload?.access_token;
+  
       Cookies.set("authToken", token, {
-        expires: 7, 
-        secure: process.env.NODE_ENV === "production", 
-        sameSite: "strict", // Prevent CSRF
+        expires: 7,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
       });
-      localStorage.setItem('isAuthenticated', 'true')
-      toast({ title: "Login successful", description: "Welcome back!" })
-      router.push("/dashboard")
+  
+      localStorage.setItem('isAuthenticated', 'true');
+  
+      toast({ title: "Login successful", description: "Welcome back!" });
+      router.push("/dashboard");
     } else {
-      const errorPayload = resultAction.payload as any
+      const errorPayload = resultAction.payload as any;
       const errorMessage = typeof errorPayload === 'string'
         ? errorPayload
-        : errorPayload?.message || "Something went wrong"
+        : errorPayload?.message || "Something went wrong";
   
       toast({
         title: "Login failed",
         description: errorMessage,
-      })
+      });
     }
-  }
-  
+  }  
 
   return (
     <Card className="gradient-card shadow-xl border-purple-800/50 glow-effect">
@@ -109,8 +112,11 @@ export function LoginForm() {
         </form>
       </CardContent>
       <CardFooter className="flex justify-center border-t border-purple-900/50 pt-4">
-        <p className="text-sm text-gray-400">Demo credentials: any email and password will work</p>
-      </CardFooter>
+      <p className="text-sm text-gray-400">
+            Don't have an account?{" "}
+        <a href="/signup" className="text-purple-400 hover:underline">Sign up</a>
+      </p>
+        </CardFooter>
     </Card>
   )
 }

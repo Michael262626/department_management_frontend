@@ -5,16 +5,19 @@ import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { LayoutDashboard, ListOrdered, PlusCircle, GitBranchPlus, LogOut, Menu, X, Settings, User } from "lucide-react"
+import { useDispatch } from "react-redux"
+import { clearAuthState } from "@/store/authSlice"
 
 export function DashboardSidebar() {
   const pathname = usePathname()
+  const dispatch = useDispatch();
   const router = useRouter()
+  const [loggingOut, setLoggingOut] = useState(false); // New state
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
     setIsClient(true)
-    // Check if user is authenticated
     const isAuthenticated = localStorage.getItem("isAuthenticated")
     if (!isAuthenticated) {
       router.push("/login")
@@ -22,9 +25,12 @@ export function DashboardSidebar() {
   }, [router])
 
   const handleLogout = () => {
-    localStorage.removeItem("isAuthenticated")
-    router.push("/login")
-  }
+    setLoggingOut(true); // Prevent redirect loop
+    localStorage.removeItem("isAuthenticated");
+    dispatch(clearAuthState());
+    router.replace("/login"); // use replace instead of push to avoid going back
+  };
+
 
   const navItems = [
     {
