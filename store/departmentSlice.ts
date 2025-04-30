@@ -21,7 +21,7 @@ const initialState: DepartmentState = {
   editingDepartment: null,
 };
 
-const GRAPHQL_ENDPOINT = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || 'http://localhost:3000/graphql';
+const GRAPHQL_ENDPOINT = `${process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT}`;
 
 export const fetchDepartments = createAsyncThunk<Department[], void, { rejectValue: string }>(
   'departments/fetch',

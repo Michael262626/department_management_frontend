@@ -48,11 +48,11 @@ export function DashboardSidebar() {
     //   href: "/dashboard/create",
     //   icon: <PlusCircle className="h-5 w-5" />,
     // },
-    {
-      name: "Hierarchy",
-      href: "/dashboard/hierarchy",
-      icon: <GitBranchPlus className="h-5 w-5" />,
-    },
+    // {
+    //   name: "Hierarchy",
+    //   href: "/dashboard/hierarchy",
+    //   icon: <GitBranchPlus className="h-5 w-5" />,
+    // },
   ]
 
   if (!isClient) {
